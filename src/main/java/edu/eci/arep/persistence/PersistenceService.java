@@ -1,6 +1,6 @@
 package edu.eci.arep.persistence;
 
-import edu.eci.arep.nanospark.components.NanoSparkException;
+import edu.eci.arep.nanospring.components.NanoSpringException;
 
 /**
  * Interface with basic DBConnection Method For The App.
@@ -12,7 +12,7 @@ public interface PersistenceService {
      *
      * @param name The name of the person.
      * @return A greeting for the person.
-     * @throws NanoSparkException When the DB Connection Fails.
+     * @throws NanoSpringException When the DB Connection Fails.
      */
-    String getGreeting(String name) throws NanoSparkException;
+    String getGreeting(String name) throws NanoSpringException;
 }

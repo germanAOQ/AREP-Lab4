@@ -1,6 +1,6 @@
 package edu.eci.arep.persistence;
 
-import edu.eci.arep.nanospark.components.NanoSparkException;
+import edu.eci.arep.nanospring.components.NanoSpringException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,17 +20,17 @@ public class PersistenceServiceImpl implements PersistenceService {
      *
      * @param name The name of the person.
      * @return A greeting for the person.
-     * @throws NanoSparkException When the DB Connection Fails.
+     * @throws NanoSpringException When the DB Connection Fails.
      */
     @Override
-    public String getGreeting(String name) throws NanoSparkException {
+    public String getGreeting(String name) throws NanoSpringException {
         String greeting;
         try {
             URL url = new URL(firebaseURL + "greetings/hello.json");
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
             greeting = bufferedReader.readLine();
         } catch (IOException e) {
-            throw new NanoSparkException("Error de Conexion A Firebase");
+            throw new NanoSpringException("Error de Conexion A Firebase");
         }
         greeting = greeting.replace("\"", "");
         return greeting + " " + name;
