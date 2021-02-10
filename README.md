@@ -12,7 +12,7 @@ Para este taller los estudiantes deberán construir un servidor Web (tipo Apache
 
 Para este taller desarrolle un prototipo mínimo que demuestre capcidades reflexivas de JAVA y permita por lo menos cargar un bean (POJO) y derivar una aplicación Web a partir de él. Debe entregar su trabajo al final del laboratorio.
 
-SUGERENCIAS
+**SUGERENCIAS**
 
 1. Cargue el POJO desde la línea de comandos, de manera similar al framework de TEST. Es decir pásela como parámetro cuando invoke el framework. 
 
@@ -22,7 +22,7 @@ SUGERENCIAS
 
 2. Atienda la anotación `@ResuestMapping` publicando el servicio en la URI indicada, limítelo a tipos de retorno String,  ejemplo:
 
-    
+    ~~~
     public class HelloController {
 
 	    @RequestMapping("/")
@@ -30,6 +30,7 @@ SUGERENCIAS
 		    return "Greetings from Spring Boot!";
 	    }
     }
+    ~~~
 
 ## Contenido
 
@@ -91,7 +92,7 @@ Para hacer uso de la aplicación se debe realizar lo siguiente:
 
     URL Aplicación ejecutada de forma Local: http://localhost:35000
 
-    URL Aplicación alojada de forma Remota con Heroku: https://arep-walteros-lab3.herokuapp.com/
+    URL Aplicación alojada de forma Remota con Heroku: https://arep-walteros-lab4.herokuapp.com/
     
     ![](img/use1.PNG)
     
