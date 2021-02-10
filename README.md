@@ -1,4 +1,4 @@
-# Taller De Arquitecturas De Servidores De Aplicaciones, Meta Protocolos De Objetos, Patrón IOC y Refelxión
+# Taller De Arquitecturas De Servidores De Aplicaciones, Meta Protocolos De Objetos, Patrón IOC y Reflexión
 
 [![CircleCI](https://circleci.com/gh/Silenrate/AREP-Lab4.svg?style=svg)](https://app.circleci.com/pipelines/github/Silenrate/AREP-Lab4)
 
@@ -10,7 +10,7 @@ Cuarto Laboratorio de Arquitecturas Empresariales (AREP).
 
 Para este taller los estudiantes deberán construir un servidor Web (tipo Apache) en Java. El servidor debe ser capaz de entregar páginas html e imágenes tipo PNG. Igualmente el servidor debe proveer un framework IoC para la construcción de aplicaciones web a partir de POJOS. Usando el servidor se debe construir una aplicación Web de ejemplo y desplegarlo en Heroku. El servidor debe atender múltiples solicitudes no concurrentes.
 
-Para este taller desarrolle un prototipo mínimo que demuestre capcidades reflexivas de JAVA y permita por lo menos cargar un bean (POJO) y derivar una aplicación Web a partir de él. Debe entregar su trabajo al final del laboratorio.
+Para este taller desarrolle un prototipo mínimo que demuestre capacidades reflexivas de JAVA y permita por lo menos cargar un bean (POJO) y derivar una aplicación Web a partir de él. Debe entregar su trabajo al final del laboratorio.
 
 **SUGERENCIAS**
 
@@ -20,7 +20,9 @@ Para este taller desarrolle un prototipo mínimo que demuestre capcidades reflex
 
    `java -cp target/classes co.edu.escuelaing.reflexionlab.MicroSpringBoot co.edu.escuelaing.reflexionlab.FirstWebService`
 
-2. Atienda la anotación `@ResuestMapping` publicando el servicio en la URI indicada, limítelo a tipos de retorno String,  ejemplo:
+2. Atienda la anotación `@ResuestMapping` publicando el servicio en la URI indicada, limítelo a tipos de retorno String.
+   
+   Ejemplo:
 
     ~~~
     public class HelloController {
@@ -69,14 +71,14 @@ Donde `classpath` es la ruta hacia el .jar o hacia la carpeta donde se encuentra
 
 #### Ejecución con .jar
 
-Se utilizó el comando `java -cp "target/areplab3-1.0-SNAPSHOT.jar;target/dependency/*" edu.eci.arep.App`.
+Se utilizó el comando `java -cp "target/areplab4-1.0-SNAPSHOT.jar;target/dependency/*" edu.eci.arep.App edu.eci.arep.demoService.HelloWebService`.
 
 ![](img/exec1.PNG)
 
 
 #### Ejecución con .class
 
-Se utilizó el comando `java -cp "target/classes;target/dependency/*" edu.eci.arep.App`.
+Se utilizó el comando `java -cp "target/classes;target/dependency/*" edu.eci.arep.App edu.eci.arep.demoService.HelloWebService`.
 
 ![](img/exec3.PNG)
 
@@ -96,7 +98,7 @@ Para hacer uso de la aplicación se debe realizar lo siguiente:
     
     ![](img/use1.PNG)
     
-    Esta pagina HTML contiene una imagen PNG y utiliza un archivo JS, estos son los tres tipos de archivos estáticos que tolera el servidor.
+    Esta página HTML contiene una imagen PNG y utiliza un archivo JS, estos son los tres tipos de archivos estáticos que tolera el servidor.
     
 2.  Al hacer click en el botón `Toogle Image` la imagen desaparecerá.
 
@@ -112,7 +114,7 @@ Para hacer uso de la aplicación se debe realizar lo siguiente:
 
     ![](img/use4.PNG)
     
-5.  El servidor retorna archivos estáticos con las extensiones js,png y html.
+5.  El servidor retorna archivos estáticos con las extensiones js, png y html.
       
     ![](img/use5.PNG)
     
@@ -128,17 +130,17 @@ Para hacer uso de la aplicación se debe realizar lo siguiente:
 
 ![](diagrams/AppClassDiagram.png)
 
-El programa principal utiliza la interfaz **HttpServer** para crear por medio de sockets un servidor sobre el cual corre una aplicación web, la implementación de esta interfaz utiliza la interfaz **PersitenceService** para acceder a la base de datos firebase y para simular le comportamineto del framework Spark tiene un atributo de la interfaz **NanoSpark**.
+El programa principal utiliza la interfaz **HttpServer** para crear por medio de sockets un servidor sobre el cual corre una aplicación web, la implementación de esta interfaz utiliza la interfaz **PersistenceService** para acceder a la base de datos firebase y para simular el comportamiento del framework Spark tiene un atributo de la interfaz **NanoSpark**.
 
-La interfaz **NanoSpark** usa el metodo get para definir endpoints como Spark y tanto la implementación de las funciones lambda como su ejecución se realizaron por medio de la interfaz Funcional **BiFunction**. El almacenamiento de los diversos endpoints se realizó por medio de un hashmap y cada vez que llega una solicitud al servidor se valida contra los endpoints establecidos.
+La interfaz **NanoSpark** usa el método get para definir endpoints como Spark y tanto la implementación de las funciones lambda como su ejecución se realizaron por medio de la interfaz Funcional **BiFunction**. El almacenamiento de los diversos endpoints se realizó por medio de un hashmap y cada vez que llega una solicitud al servidor se valida contra los endpoints establecidos.
 
-Una gran ventaja de esta arquitecura es que al desacoplar las funcionalidades con interfaces se pueden realizar cambios o extensiones sin afectar otras capas del modelo, solo basta con crear una clase que implemente la interfaz respectiva y asignarla en la clase que la utiliza.
+Una gran ventaja de esta arquitectura es que al desacoplar las funcionalidades con interfaces se pueden realizar cambios o extensiones sin afectar otras capas del modelo, solo basta con crear una clase que implemente la interfaz respectiva y asignarla en la clase que la utiliza.
 
 ![](diagrams/ComponentDiagram.png)
 
 La aplicación se divide en tres componentes principales, FrontEnd, BackEnd y FirebaseDB.
 
-El componente más funcional de FrontEnd es **App**, este es el que lee la información que registra el ususario y por medio de Axios accede a **HttpServer** para usar el endpoint definido en NanoSpark.
+El componente más funcional de FrontEnd es **App**, este es el que lee la información que registra el usuario y por medio de Axios accede a **HttpServer** para usar el endpoint definido en NanoSpark.
 
 La función lambda con la que se configuró este endpoint permite conectarse al componente **PersistenceServiceImpl**, este se conecta la base de datos Firebase para obtener el saludo que retorna junto con el nombre del usuario.
 
@@ -173,7 +175,7 @@ Para generar la documentación de Java se utiliza el comando `mvn javadoc:javado
 
 ## Documentación en PDF realizada en LATEX
 
-[Taller De Arquitecturas De Servidores De Aplicaciones, Meta Protocolos De Objetos, Patrón IOC y Refelxión](TallerClientesYServicios.pdf)
+[Taller De Arquitecturas De Servidores De Aplicaciones, Meta Protocolos De Objetos, Patrón IOC y Reflexión](TallerClientesYServicios.pdf)
 
 ## Autor
 
