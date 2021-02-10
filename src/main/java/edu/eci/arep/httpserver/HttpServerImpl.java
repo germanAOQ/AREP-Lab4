@@ -220,7 +220,9 @@ public class HttpServerImpl implements HttpServer {
         while ((inputLine = in.readLine()) != null) {
             if (inputLine.contains("GET")) {
                 endpoint = inputLine.split(" ")[1];
-                if (endpoint.contains("/Nsapps")) {
+				if(endpoint.equals("/")){
+					getStaticFiles("/index.html");
+				} else if (endpoint.contains("/Nsapps")) {
                     endpoint = endpoint.replace("/Nsapps", "");
                     executeSpringEndpoint(endpoint, out);
                 } else {
