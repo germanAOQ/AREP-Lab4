@@ -1,6 +1,6 @@
 var imageButton = document.getElementById("button");
 var nameButton = document.getElementById("buttonName");
-var url = "https://arep-walteros-lab3.herokuapp.com/Apps/hello?value=";
+var url = "https://arep-walteros-lab4.herokuapp.com/Nsapps/hello?value=";
 
 imageButton.addEventListener('click', function () {
     $('#image').toggle('slow');
