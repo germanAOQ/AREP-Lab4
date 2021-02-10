@@ -1,5 +1,16 @@
 package edu.eci.arep;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static org.junit.Assert.*;
+
 /**
  * Unit Tests For The App.
  */
@@ -7,9 +18,16 @@ public class AppTest {
 
     private final String basicUrl = "http://127.0.0.1:35000";
 
-    /*@BeforeClass
+    @BeforeClass
     public static void setup() {
-        new Thread(() -> App.main(null)).start();
+        new Thread(() -> {
+            try {
+                String[] args = {};
+                App.main(args);
+            } catch (ClassNotFoundException e) {
+                fail("No debió fallar al iniciar la app");
+            }
+        }).start();
     }
 
     @Test
@@ -65,23 +83,23 @@ public class AppTest {
     }
 
     @Test
-    public void shouldFindTheNanoSparkEndpoint() {
+    public void shouldFindTheNanoSpringEndpoint() {
         String value = "Daniel";
         try {
-            URL url = new URL(basicUrl + "/Apps/hello?value=" + value);
+            URL url = new URL(basicUrl + "/Nsapps/hello?value=" + value);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
             String inputLine = bufferedReader.readLine();
-            assertEquals("Hola " + value, inputLine);
+            assertEquals("Hola " + value + " desde NanoSpring", inputLine);
         } catch (IOException e) {
             fail("No debió fallar al realizar la conexión con esa URL");
         }
     }
 
     @Test
-    public void shouldFailWithAnIncompleteNanoSparkEndpoint() {
+    public void shouldFailWithAnIncompleteNanoSpringEndpoint() {
         URL url = null;
         try {
-            url = new URL(basicUrl + "/Apps/hello");
+            url = new URL(basicUrl + "/Nsapps/hello");
         } catch (MalformedURLException e) {
             fail("No debió fallar al crear la URL");
         }
@@ -89,7 +107,7 @@ public class AppTest {
             new BufferedReader(new InputStreamReader(url.openStream()));
             fail("Debió fallar al realizar la conexión con esa URL");
         } catch (IOException e) {
-            assertEquals("Server returned HTTP response code: 409 for URL: " + basicUrl + "/Apps/hello", e.getMessage());
+            assertEquals("Server returned HTTP response code: 409 for URL: " + basicUrl + "/Nsapps/hello", e.getMessage());
         }
-    }*/
+    }
 }
