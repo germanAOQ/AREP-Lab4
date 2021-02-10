@@ -1,22 +1,14 @@
 package edu.eci.arep.httpserver;
 
 import edu.eci.arep.nanospring.components.NanoSpringException;
-import edu.eci.arep.persistence.PersistenceService;
-import edu.eci.arep.persistence.PersistenceServiceImpl;
+import edu.eci.arep.nanospring.components.Request;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.lang.reflect.Method;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.HashMap;
 import java.util.Map;
 
 import static edu.eci.arep.nanospring.NanoSpringApplication.invoke;
@@ -27,8 +19,10 @@ import static edu.eci.arep.nanospring.NanoSpringApplication.invoke;
  */
 public class HttpServerImpl implements HttpServer {
 
-
     private static final String ROUTE_TO_STATIC_FILES = "/src/main/resources/static";
+    private static final String BASIC_HTML_ERROR_START = "<!DOCTYPE html>\n <html>\n<head>\n<meta charset=\"UTF-8\">\n<title>";
+    public static final String BASIC_HTML_ERROR_MEDIUM = " Error</title>\n</head>\n<body>\n";
+    public static final String BASIC_HTML_END = "</body>\n</html>\n";
     private final Map<String, Method> componentsRoute;
     private ServerSocket serverSocket;
     private OutputStream out;
@@ -40,7 +34,7 @@ public class HttpServerImpl implements HttpServer {
      *
      * @param componentsRoute Map that indicates the paths and method of the NanoSpring Components.
      */
-    public HttpServerImpl(Map<String,Method> componentsRoute) {
+    public HttpServerImpl(Map<String, Method> componentsRoute) {
         super();
         this.componentsRoute = componentsRoute;
     }
@@ -101,16 +95,9 @@ public class HttpServerImpl implements HttpServer {
         } catch (IOException e) {
             int statusCode = 404;
             printErrorMessage(statusCode,
-                    "<!DOCTYPE html>\n"
-                            + "<html>\n"
-                            + "<head>\n"
-                            + "<meta charset=\"UTF-8\">\n"
-                            + "<title>" + statusCode + " Error</title>\n"
-                            + "</head>\n"
-                            + "<body>\n"
+                    BASIC_HTML_ERROR_START + statusCode + BASIC_HTML_ERROR_MEDIUM
                             + "<h1>404 File Not Found</h1>\n"
-                            + "</body>\n"
-                            + "</html>\n", "Not Found");
+                            + BASIC_HTML_END, "Not Found");
         }
     }
 
@@ -134,16 +121,9 @@ public class HttpServerImpl implements HttpServer {
         } catch (IOException e) {
             int statusCode = 404;
             printErrorMessage(statusCode,
-                    "<!DOCTYPE html>\n"
-                            + "<html>\n"
-                            + "<head>\n"
-                            + "<meta charset=\"UTF-8\">\n"
-                            + "<title>" + statusCode + " Error</title>\n"
-                            + "</head>\n"
-                            + "<body>\n"
+                    BASIC_HTML_ERROR_START + statusCode + BASIC_HTML_ERROR_MEDIUM
                             + "<h1>404 File Not Found</h1>\n"
-                            + "</body>\n"
-                            + "</html>\n", "Not Found");
+                            + BASIC_HTML_END, "Not Found");
         }
     }
 
@@ -220,9 +200,9 @@ public class HttpServerImpl implements HttpServer {
         while ((inputLine = in.readLine()) != null) {
             if (inputLine.contains("GET")) {
                 endpoint = inputLine.split(" ")[1];
-				if(endpoint.equals("/")){
-					getStaticFiles("/index.html");
-				} else if (endpoint.contains("/Nsapps")) {
+                if (endpoint.equals("/")) {
+                    getStaticFiles("/index.html");
+                } else if (endpoint.contains("/Nsapps")) {
                     endpoint = endpoint.replace("/Nsapps", "");
                     executeSpringEndpoint(endpoint, out);
                 } else {
@@ -236,9 +216,9 @@ public class HttpServerImpl implements HttpServer {
     }
 
     private void executeSpringEndpoint(String path, OutputStream out) throws IOException {
-        Map<String, String> information = getInfoFromEndpoint(path);
-        String endpoint = information.get("endpoint");
-        String value = information.get("value");
+        Request request = new Request(path);
+        String endpoint = request.getEndpoint();
+        String value = request.getValue();
         if (componentsRoute.containsKey(endpoint)) {
             String result;
             try {
@@ -252,33 +232,11 @@ public class HttpServerImpl implements HttpServer {
                         + result).getBytes());
             } catch (NanoSpringException e) {
                 printErrorMessage(409,
-                        "<!DOCTYPE html>\n"
-                                + "<html>\n"
-                                + "<head>\n"
-                                + "<meta charset=\"UTF-8\">\n"
-                                + "<title>" + 409 + " Error</title>\n"
-                                + "</head>\n"
-                                + "<body>\n"
+                        BASIC_HTML_ERROR_START + 409 + BASIC_HTML_ERROR_MEDIUM
                                 + "<h1>" + e.getMessage() + "</h1>\n"
-                                + "</body>\n"
-                                + "</html>\n", "409 Conflict");
+                                + BASIC_HTML_END, "409 Conflict");
             }
         }
-    }
-
-    private Map<String, String> getInfoFromEndpoint(String path) {
-        Map<String, String> information = new HashMap<>();
-        int indexOfValues = path.indexOf("?");
-        if (indexOfValues < 0) {
-            information.put("endpoint", path);
-            information.put("value", null);
-        } else {
-            String valuePath = path.substring(indexOfValues + 1);
-            int indexOfValue = valuePath.indexOf("=");
-            information.put("endpoint", path.substring(0, indexOfValues));
-            information.put("value", valuePath.substring(indexOfValue + 1));
-        }
-        return information;
     }
 
     /**

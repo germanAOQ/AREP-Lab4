@@ -63,8 +63,7 @@ public class NanoSpringApplication {
      */
     private void loadComponents(String[] components) throws ClassNotFoundException {
         for (String component : components) {
-            Class c = Class.forName(component);
-            for (Method method : c.getMethods()) {
+            for (Method method : Class.forName(component).getMethods()) {
                 if (method.isAnnotationPresent(RequestMapping.class)) {
                     componentsRoute.put(method.getAnnotation(RequestMapping.class).value(), method);
                 }
@@ -81,7 +80,7 @@ public class NanoSpringApplication {
      * @throws NanoSpringException When a method require a not defined parameter.
      */
     public static String invoke(Method staticMethod, String... args) throws NanoSpringException {
-        String result = null;
+        String result;
         String argument = null;
         try {
             for (Parameter parameter : staticMethod.getParameters()) {
@@ -98,10 +97,8 @@ public class NanoSpringApplication {
                 result = staticMethod.invoke(null).toString();
             }
 
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            throw new NanoSpringException("Error al ejecutar la funcionalidad del endpoint");
         }
         return result;
     }
