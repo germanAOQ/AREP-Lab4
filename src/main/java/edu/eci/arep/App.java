@@ -6,7 +6,7 @@ import edu.eci.arep.httpserver.HttpServerImpl;
 import java.io.IOException;
 
 /**
- * Basic HTTP Server With NanoSpark Framework App.
+ * Basic HTTP Server With NanoSpring Framework App.
  * Author: Daniel Felipe Walteros Trujillo
  */
 public class App {
