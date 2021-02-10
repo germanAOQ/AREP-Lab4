@@ -1,4 +1,4 @@
-# Taller Clientes Y Servicios
+# Taller De Arquitecturas De Servidores De Aplicaciones, Meta Protocolos De Objetos, Patrón IOC y Refelxión
 
 [![CircleCI](https://circleci.com/gh/Silenrate/AREP-Lab4.svg?style=svg)](https://app.circleci.com/pipelines/github/Silenrate/AREP-Lab4)
 
@@ -12,12 +12,13 @@ Para este taller los estudiantes deberán construir un servidor Web (tipo Apache
 
 Para este taller desarrolle un prototipo mínimo que demuestre capcidades reflexivas de JAVA y permita por lo menos cargar un bean (POJO) y derivar una aplicación Web a partir de él. Debe entregar su trabajo al final del laboratorio.
 
-SUGERENCIA
-1.Cargue el POJO desde la línea de comandos, de manera similar al framework de TEST. Es decir pásela como parámetro cuando invoke el framework. 
+SUGERENCIAS
 
-Ejemplo de invocación:
+1. Cargue el POJO desde la línea de comandos, de manera similar al framework de TEST. Es decir pásela como parámetro cuando invoke el framework. 
 
-`java -cp target/classes co.edu.escuelaing.reflexionlab.MicroSpringBoot co.edu.escuelaing.reflexionlab.FirstWebService`
+   Ejemplo de invocación:
+
+   `java -cp target/classes co.edu.escuelaing.reflexionlab.MicroSpringBoot co.edu.escuelaing.reflexionlab.FirstWebService`
 
 2. Atienda la anotación `@ResuestMapping` publicando el servicio en la URI indicada, limítelo a tipos de retorno String,  ejemplo:
 
@@ -167,11 +168,11 @@ Para generar la documentación de Java se utiliza el comando `mvn javadoc:javado
 
 **La documentación de Java de este proyecto se encuentra previamente en la carpeta docs/apidocs**
 
-**Adicionalmente se puede acceder a una visualización de esta documentación accediendo a este [ENLACE](https://silenrate.github.io/AREP-Lab3/apidocs/)**
+**Adicionalmente se puede acceder a una visualización de esta documentación accediendo a este [ENLACE](https://silenrate.github.io/AREP-Lab4/apidocs/)**
 
 ## Documentación en PDF realizada en LATEX
 
-[Taller Clientes Y Servicios](TallerClientesYServicios.pdf)
+[Taller De Arquitecturas De Servidores De Aplicaciones, Meta Protocolos De Objetos, Patrón IOC y Refelxión](TallerClientesYServicios.pdf)
 
 ## Autor
 
