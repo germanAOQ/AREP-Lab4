@@ -12,12 +12,11 @@ import java.lang.annotation.Target;
  * Annotation that represents a method for an endpoint inside a request on the http server.
  * Author: Daniel Felipe Walteros Trujillo
  */
-
 public @interface RequestMapping {
     /**
      * The path value of the endpoint.
      *
      * @return The value of the endpoint.
      */
-    public String value();
+    String value();
 }
