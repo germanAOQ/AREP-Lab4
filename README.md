@@ -130,23 +130,25 @@ Para hacer uso de la aplicación se debe realizar lo siguiente:
 
 ![](diagrams/AppClassDiagram.png)
 
-El programa principal utiliza la interfaz **HttpServer** para crear por medio de sockets un servidor sobre el cual corre una aplicación web, la implementación de esta interfaz utiliza la interfaz **PersistenceService** para acceder a la base de datos firebase y para simular el comportamiento del framework Spark tiene un atributo de la interfaz **NanoSpark**.
+El programa principal utiliza la clase **NanoSpringApplication**, esta clase por medio de reflexión carga los componentes y su maneja su ejecución por medio de la interfaz **HttpServer**, su implementación crea por medio de sockets un servidor sobre el cual corre una aplicación web.
 
-La interfaz **NanoSpark** usa el método get para definir endpoints como Spark y tanto la implementación de las funciones lambda como su ejecución se realizaron por medio de la interfaz Funcional **BiFunction**. El almacenamiento de los diversos endpoints se realizó por medio de un hashmap y cada vez que llega una solicitud al servidor se valida contra los endpoints establecidos.
+La clase **NanoSpringApplication** utiliza el método run para cargar los componentes recibidos en los argumentos del main usando reflexión, esto hace que no haya necesidad de modificar el codigo del framework para incorporar nuevos endpoints siempre y cuando utilicen la anotación **RequestMapping** en el método del nuevo endpoint y la anotación **PathVariable** en caso de que el path necesite variables.
 
-Una gran ventaja de esta arquitectura es que al desacoplar las funcionalidades con interfaces se pueden realizar cambios o extensiones sin afectar otras capas del modelo, solo basta con crear una clase que implemente la interfaz respectiva y asignarla en la clase que la utiliza.
+![](diagrams/DemoClassDiagram.png)
+
+Para probar el framework se creo un servicio simple llamado **HelloWebService** que utiliza las anotaciones previas y además por medio de la interfaz **PersistenceService** accede a una base de datos, su implemenración se conecta a una base de datos Firebase desarrollada para probar en tiempo real la conexión.
 
 ![](diagrams/ComponentDiagram.png)
 
 La aplicación se divide en tres componentes principales, FrontEnd, BackEnd y FirebaseDB.
 
-El componente más funcional de FrontEnd es **App**, este es el que lee la información que registra el usuario y por medio de Axios accede a **HttpServer** para usar el endpoint definido en NanoSpark.
+El componente más funcional de FrontEnd es **App**, este es el que lee la información que registra el usuario y por medio de Axios accede a **NanoSpringApplication** para usar el endpoint definido en NanoSpring.
 
-La función lambda con la que se configuró este endpoint permite conectarse al componente **PersistenceServiceImpl**, este se conecta la base de datos Firebase para obtener el saludo que retorna junto con el nombre del usuario.
+Este endpoint se configuró una conexión con el componente **PersistenceServiceImpl**, este se conecta la base de datos Firebase para obtener el saludo que retorna junto con el nombre del usuario.
 
 ![](diagrams/deploy.PNG)
 
-Debido a que utilizando que la aplicación desarrollada intenta emular el comportamiento la herramienta Spark, su naturaleza es la de una aplicación web, cualquier persona con conexión a internet puede acceder a la aplicación desplegada, la interacción del cliente con el servidor se realiza únicamente por el protocolo HTTP; por otra parte, la conexión del servidor con la base de datos firebase se realiza por el protocolo HTTPS.  
+Debido a que utilizando que la aplicación desarrollada intenta emular el comportamiento de una aplicación web realizada con Spring, cualquier persona con conexión a internet puede acceder a la aplicación desplegada, la interacción del cliente con el servidor se realiza únicamente por el protocolo HTTP; por otra parte, la conexión del servidor con la base de datos firebase se realiza por el protocolo HTTPS.  
 
 ## Resultados de las Pruebas
 
@@ -156,8 +158,8 @@ El programa fue probado con seis pruebas unitarias de JUnit donde se contemplaro
   - Búsqueda de un archivo PNG.
   - Búsqueda de un archivo JS.
   - Búsqueda de un archivo inexistente.
-  - Uso de Endpoint Generado Con NanoSpark.
-  - Fallo Por Uso Erróneo de Endpoint Generado Con NanoSpark.
+  - Uso de Endpoint Generado Con NanoSpring.
+  - Fallo Por Uso Erróneo de Endpoint Generado Con NanoSpring.
 
 Los resultados de las pruebas se pueden visualizar al utilizar el comando `mvn package` o el comando `mvn test`.
 
