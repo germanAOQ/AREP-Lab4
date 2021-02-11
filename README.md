@@ -177,7 +177,7 @@ Para generar la documentación de Java se utiliza el comando `mvn javadoc:javado
 
 ## Documentación en PDF realizada en LATEX
 
-[Taller De Arquitecturas De Servidores De Aplicaciones, Meta Protocolos De Objetos, Patrón IOC y Reflexión](TallerClientesYServicios.pdf)
+[Taller De Arquitecturas De Servidores De Aplicaciones, Meta Protocolos De Objetos, Patrón IOC y Reflexión](TallerDeArquitecturasDeServidoresDeAplicacionesMetaProtocolosDeObjetosPatronIOCyReflexion.pdf)
 
 ## Autor
 
